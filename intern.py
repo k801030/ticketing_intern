@@ -1,7 +1,6 @@
 import argparse
 import concurrent.futures
 import logging
-import time
 
 from src.common.config import TixcraftConfig
 from src.tixcraft import TixCraft

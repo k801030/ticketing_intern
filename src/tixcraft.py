@@ -2,6 +2,7 @@ import logging
 import random
 import time
 import traceback
+from time import sleep
 
 from selenium.common import TimeoutException
 from selenium.webdriver.common.by import By
@@ -12,6 +13,9 @@ from selenium.webdriver.support.wait import WebDriverWait
 from src.common.alert_util import close_alert
 from src.common.my_driver import MyDriver
 from src.common.ocr_util import image_to_text
+
+
+REFRESH_INTERVAL = 1
 
 
 class TixCraft:
@@ -103,6 +107,7 @@ class TixCraft:
                     event_is_available = True
 
             if not event_is_available:
+                sleep(REFRESH_INTERVAL)
                 self.driver.refresh()
 
         def handle_areas():
