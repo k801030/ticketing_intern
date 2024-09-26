@@ -5,6 +5,7 @@ import traceback
 from time import sleep
 
 from selenium.common import TimeoutException
+from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.expected_conditions import url_contains, element_to_be_clickable
 from selenium.webdriver.support.select import Select
@@ -50,15 +51,17 @@ class TixCraft:
         while True:
             result = image_to_text(self.driver, selector)
             logging.info(f'ocr: {result}')
+            # FIXME: disable the retry
             # refresh the ocr if the length of result is wrong
-            if len(result) != 4:
-                captcha = self.driver.retry_find_element(selector)
-                captcha.click()
-                time.sleep(0.1)
-                continue
+            # if len(result) != 4:
+            #     captcha = self.driver.retry_find_element(selector)
+            #     captcha.click()
+            #     time.sleep(0.1)
+            #     continue
 
             captcha_input = self.driver.retry_find_element('input#TicketForm_verifyCode')
             captcha_input.send_keys(result)
+            captcha_input.send_keys(Keys.COMMAND + "a")
             break
 
     def login(self):
@@ -70,6 +73,8 @@ class TixCraft:
         email.send_keys(self.config.facebook_account)
         password = self.driver.retry_find_element('#pass')
         password.send_keys(self.config.facebook_password)
+
+        # FIXME: disable the auto-click in facebook login
         # consent = self.driver.retry_find_element(
         #     '.x1ja2u2z.x78zum5.x2lah0s.x1n2onr6.xl56j7k.x6s0dn4.xozqiw3.x1q0g3np.xi112ho.x17zwfj4.x585lrc.x1403ito.x972fbf.xcfux6l.x1qhh985.xm0m39n.x9f619.xn6708d.x1ye3gou.xtvsq51.x1r1pt67')
         # consent.retry_click()
@@ -131,11 +136,18 @@ class TixCraft:
             # enter_captcha
             self.enter_captcha()
 
-            # click submit button
-            submit = self.driver.retry_find_element('.btn-primary')
-            self.driver.enforce_click(submit)
+            # provide time buffer to users to enter the captcha
+            try:
+                WebDriverWait(self.driver, 60).until(url_contains('/ticket/order'))
+            except TimeoutException:
+                pass
 
-            close_alert(self.driver)
+            # FIXME: disable the submit
+            # click submit button
+            # submit = self.driver.retry_find_element('.btn-primary')
+            # self.driver.enforce_click(submit)
+            #
+            # close_alert(self.driver)
 
         def handle_confirm():
             time.sleep(1)

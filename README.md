@@ -36,6 +36,8 @@ Currently, the intern will select date and seat randomly
 
 ### How to run multiple windows?
 
+> The feature is currently disabled
+
 You can achieve it by specifying the number of interns
 
 ```

@@ -16,8 +16,8 @@ def main(config):
 
 
 def build_config() -> TixcraftConfig:
-    facebook_account = 'partyhousetw@gmail.com'
-    facebook_password = 'vi_movie'
+    facebook_account = '+4407741301802'
+    facebook_password = 'qq484542'
     # ocr testing
     page = 'https://tixcraft.com/ticket/ticket/24_colde/17640/1/48'
     page = 'https://tixcraft.com/activity/detail/24_colde'
@@ -38,8 +38,9 @@ if __name__ == "__main__":
     app = TixCraft(config)
     app.setup_browser()
     app.close_consent()
-    app.execute()
     # app.login()
+    app.execute()
+
     config.sid_cookie = app.fetch_sid()
 
     with concurrent.futures.ThreadPoolExecutor(max_workers=config.num_of_interns) as executor:

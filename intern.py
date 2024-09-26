@@ -51,13 +51,15 @@ if __name__ == "__main__":
     logging.info("Running against tixcraft...")
 
     config = build_config()
-    one_time_facebook_login(config)
+    main(config)
 
-    with concurrent.futures.ThreadPoolExecutor(max_workers=config.num_of_interns) as executor:
-        futures = []
-        for i in range(config.num_of_interns):
-            future = executor.submit(main, config)
-            futures.append(future)
-
-        for future in concurrent.futures.as_completed(futures):
-            future.result()
+    # FIXME: temporarily disable multiple interns
+    # one_time_facebook_login(config)
+    # with concurrent.futures.ThreadPoolExecutor(max_workers=config.num_of_interns) as executor:
+    #     futures = []
+    #     for i in range(config.num_of_interns):
+    #         future = executor.submit(main, config)
+    #         futures.append(future)
+    #
+    #     for future in concurrent.futures.as_completed(futures):
+    #         future.result()
