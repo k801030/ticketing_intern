@@ -30,6 +30,10 @@ python intern.py \
 
 ## FAQ
 
+### Should I enter the captcha code manually?
+
+The intern will automatically enter it, but if you see any mistake, please correct them and press enter to send 
+
 ### Could I select the dates, seats?
 
 Currently, the intern will select date and seat randomly
