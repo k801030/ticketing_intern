@@ -1,5 +1,4 @@
 import argparse
-import concurrent.futures
 import logging
 
 from src.common.config import TixcraftConfig

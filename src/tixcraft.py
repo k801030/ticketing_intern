@@ -5,18 +5,18 @@ import traceback
 from time import sleep
 
 from selenium.common import TimeoutException
-from selenium.webdriver.common.keys import Keys
+from selenium.webdriver import ActionChains
 from selenium.webdriver.common.by import By
+from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.expected_conditions import url_contains, element_to_be_clickable
 from selenium.webdriver.support.select import Select
 from selenium.webdriver.support.wait import WebDriverWait
 
-from src.common.alert_util import close_alert
 from src.common.my_driver import MyDriver
 from src.common.ocr_util import image_to_text
 
 
-REFRESH_INTERVAL = 1
+REFRESH_INTERVAL = 0.5
 
 
 class TixCraft:
@@ -61,7 +61,10 @@ class TixCraft:
 
             captcha_input = self.driver.retry_find_element('input#TicketForm_verifyCode')
             captcha_input.send_keys(result)
-            captcha_input.send_keys(Keys.COMMAND + "a")
+
+            actions = ActionChains(self.driver)
+            # select all
+            actions.key_down(Keys.COMMAND).send_keys('A').key_up(Keys.COMMAND).perform()
             break
 
     def login(self):
